@@ -1,16 +1,14 @@
-# sorteerhoed
+# Sorteerhoed
 
 SorteerHoed Informatica Leiden
 
-## Getting Started
+Mobiele applicatie gemaakt met Flutter.
 
-This project is a starting point for a Flutter application.
+In de eerste periode van het eerste jaar moesten we een python programma maken die je in de console kon gebruiken. 
+Het programma moest een vragenlijst zijn waarmee je de gebruiker kan indelen op in 1 van de 4 specialisaties die je moet kiezen aan het einde van het jaar.
 
-A few resources to get you started if this is your first Flutter project:
+In de vakantie ben ik gaan werken aan de grafische mobiele versie van dit project als persoonlijk project.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+De vragenlijst bestaat uit 20 vragen over de vier verschillende specialisaties.
+Aan het einde wordt er een grafiek getoont met percentage dat je interesse overlapt met de specialisatie. 
+De antwoorden worden opgeslagen in SQFLite database, en kunnen opnieuw worden ingezien.
