@@ -1,17 +1,5 @@
-part of 'main.dart';
-
-int currentQ = 0;
-List<int> antwoordenL = [];
-String naam;
-List<int> specWaardes = [0, 0, 0, 0];
-String specialisatie = "Onbekend";
-// ignore: non_constant_identifier_names
-int data_version_id = 0;
-List<int> dataIds = [];
-
-List<int> specMax = [372,380,372,380];
-
-final List<String> qList = [
+class QuestionData {
+  final List<String> questionList = [
     "Je vindt wetten en regels interessant.",
     "Je vindt het belangrijk dat programma's makkelijk en gebruiker vriendelijk zijn.",
     "Je wilt leren hoe bestaande processen kan automatiseren.",
@@ -32,35 +20,35 @@ final List<String> qList = [
     "Je wilt weten hoe je applicaties kan maken voor Android en Ios.",
     "Je bent goed in het in zien van patronen.",
     "Je bent goed in conclusies maken.",
-];
-final List<String> aList = [
-    "Helemaal Eens",
-    "Eens",
-    "Neutraal",
-    "Oneens",
-    "Helemaal Oneens",
-];
-final List<List<int>> pList = [
-    [10,0,0,0],
-    [0,10,0,0],
-    [0,2,10,8],
-    [2,0,0,10],
-    [10,8,6,8],
-    [8,10,4,0],
-    [5,5,10,7],
-    [5,0,7,10],
-    [10,3,5,5],
-    [0,10,0,7],
-    [0,7,9,0],
-    [0,0,0,10],
-    [10,0,6,0],
-    [5,10,8,0],
-    [0,8,10,0],
-    [0,4,1,10],
-    [10,0,0,0],
-    [0,10,10,0],
-    [10,3,7,10],
-    [8,5,0,10]
-];
+  ];
+  final List<String> possibleAnswerList = [
+    "Totally Agree",
+    "Agree",
+    "Neutral",
+    "Disagree",
+    "Totally Disagree",
+  ];
+  final List<List<int>> questionPointsList = [
+    [10, 0, 0, 0],
+    [0, 10, 0, 0],
+    [0, 2, 10, 8],
+    [2, 0, 0, 10],
+    [10, 8, 6, 8],
+    [8, 10, 4, 0],
+    [5, 5, 10, 7],
+    [5, 0, 7, 10],
+    [10, 3, 5, 5],
+    [0, 10, 0, 7],
+    [0, 7, 9, 0],
+    [0, 0, 0, 10],
+    [10, 0, 6, 0],
+    [5, 10, 8, 0],
+    [0, 8, 10, 0],
+    [0, 4, 1, 10],
+    [10, 0, 0, 0],
+    [0, 10, 10, 0],
+    [10, 3, 7, 10],
+    [8, 5, 0, 10]
+  ];
 
-final String opnieuwbeginnen = "Wil je verder gaan waar je gebleven was?";
+}
