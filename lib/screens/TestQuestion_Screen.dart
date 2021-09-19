@@ -118,6 +118,7 @@ class _TestQuestionState extends State<TestQuestionScreen> {
       Navigator.pop(context);
       showDialog(context: context, builder: (context) => ShareResultWidget());
       DatabaseHandler.insert();
+      LocalUser.currentQuestion = 0;
     }
   }
 

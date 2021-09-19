@@ -38,7 +38,12 @@ class LocalUser {
     LocalUser.specialisation = "Unknown";
     LocalUser.currentQuestion = 0;
     LocalUser.answersPointList.clear();
-    LocalUser.specialisationPoints.forEach((key, value) {value = 0;});
+    LocalUser.specialisationPoints = {
+      'FICT' : 0,
+      'SE': 0,
+      'BDAM': 0,
+      'IAT': 0,
+    };
     LocalUser.name = null;
   }
 }
