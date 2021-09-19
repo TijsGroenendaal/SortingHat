@@ -1,4 +1,4 @@
-import 'package:Sorteerhoed/utils/User.dart';
+import 'package:SortingHat/utils/User.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,6 @@ class _TestStartState extends State<TestStartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text("Enter your name"),
         actions: [
           IconButton(
@@ -36,7 +35,12 @@ class _TestStartState extends State<TestStartScreen> {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: TextField(
-                decoration: InputDecoration(hintText: "Enter your Name"),
+                decoration: InputDecoration(
+                    hintText: "Enter your Name",
+                ),
+                style: TextStyle(
+                  color: Colors.black
+                ),
                 maxLength: 20,
                 controller: myController,
               ),
@@ -48,7 +52,7 @@ class _TestStartState extends State<TestStartScreen> {
   }
 
   _saveNameHandler() {
-    User.name = myController.text;
+    LocalUser.name = myController.text;
     Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return TestQuestionScreen();

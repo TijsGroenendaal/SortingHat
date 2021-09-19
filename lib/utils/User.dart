@@ -1,27 +1,57 @@
 import 'dart:math';
 
-class User {
+class LocalUser {
   static String name;
   static int currentQuestion = 0;
   static List<int> answersPointList = [];
-  static List<int> specialisationPoints = [0, 0, 0, 0];
+  static Map<String, int> specialisationPoints = {
+    'FICT' : 0,
+    'SE': 0,
+    'BDAM': 0,
+    'IAT': 0,
+  };
   static String specialisation = "Unknown";
-  static List<int> dataIds = [];
 
   static void setSpecialisation() {
-    int highest = User.specialisationPoints.reduce(max);
-
+    List<int> pointList = [
+      LocalUser.specialisationPoints['FICT'],
+      LocalUser.specialisationPoints['IAT'],
+      LocalUser.specialisationPoints['SE'],
+      LocalUser.specialisationPoints['BDAM'],
+    ];
+    int highest = pointList.reduce(max);
     if (highest != 0) {
-      int index = User.specialisationPoints.indexOf(highest);
+      int index = pointList.indexOf(highest);
       if (index == 0) {
-        User.specialisation = "Forensic ICT";
+        LocalUser.specialisation = "Forensic ICT";
       } else if (index == 1) {
-        User.specialisation = "Interaction Technologies";
+        LocalUser.specialisation = "Interaction Technologies";
       } else if (index == 2) {
-        User.specialisation = "Software Engineering";
+        LocalUser.specialisation = "Software Engineering";
       } else if (index == 3) {
-        User.specialisation = "Business Data Management";
+        LocalUser.specialisation = "Business Data Management";
       }
     }
   }
+
+  static void resetUser() {
+    LocalUser.specialisation = "Unknown";
+    LocalUser.currentQuestion = 0;
+    LocalUser.answersPointList.clear();
+    LocalUser.specialisationPoints.forEach((key, value) {value = 0;});
+    LocalUser.name = null;
+  }
+}
+
+class ResultUser {
+  String name;
+  Map<String, dynamic> specialisationPoints = {
+    'FICT' : 0,
+    'SE': 0,
+    'BDAM': 0,
+    'IAT': 0,
+  };
+  String specialisation = 'Unknown';
+
+  ResultUser({this.name, this.specialisation, this.specialisationPoints});
 }

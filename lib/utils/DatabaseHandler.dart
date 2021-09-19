@@ -13,10 +13,11 @@ class DatabaseHandler {
 
   static final columnId = '_id';
   static final columnName = 'name';
-  static final columnFICT = 'F';
-  static final columnIAT = 'I';
-  static final columnSE = 'S';
-  static final columnBDAM = 'B';
+  static final columnResult = 'RESULT';
+  static final columnFICT = 'FICT';
+  static final columnIAT = 'IAT';
+  static final columnSE = 'SE';
+  static final columnBDAM = 'BDAM';
 
   static Database db;
 
@@ -24,7 +25,7 @@ class DatabaseHandler {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = paths.join(documentsDirectory.path, _databaseName);
 
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     db = await openDatabase(
         path,
@@ -37,6 +38,7 @@ class DatabaseHandler {
           CREATE TABLE $resultsTable (
             $columnId INTEGER PRIMARY KEY,
             $columnName TEXT NOT NULL,
+            $columnResult TEXT NOT NULL,
             $columnFICT INTEGER NOT NULL,
             $columnIAT INTEGER NOT NULL,
             $columnSE INTEGER NOT NULL,
@@ -49,11 +51,13 @@ class DatabaseHandler {
     await db.insert(
       resultsTable,
       {
-        columnName: User.name,
-        columnFICT: User.specialisationPoints[0],
-        columnIAT: User.specialisationPoints[1],
-        columnSE: User.specialisationPoints[2],
-        columnBDAM: User.specialisationPoints[3]
+        columnId: (LocalUser.name + LocalUser.specialisationPoints.toString()).hashCode,
+        columnName: LocalUser.name,
+        columnResult: LocalUser.specialisation,
+        columnFICT: LocalUser.specialisationPoints['FICT'],
+        columnIAT: LocalUser.specialisationPoints['IAT'],
+        columnSE: LocalUser.specialisationPoints['SE'],
+        columnBDAM: LocalUser.specialisationPoints['BDAM']
       }
     );
   }
@@ -62,24 +66,7 @@ class DatabaseHandler {
     return await db.query(resultsTable);
   }
 
-  static Future<List<Map<String, dynamic>>> queryRow(int id) async {
-    return db.query(resultsTable);
-  }
-
-  static Future<void> update(Map<String, dynamic> row) async {
-    int id = row[columnId];
-    await db.update(resultsTable, row, where: '$columnId = ?', whereArgs: [id]);
-  }
-
   static Future<void> delete(int id) async {
     await db.delete(resultsTable, where: '$columnId = ?', whereArgs: [id]);
-  }
-
-  static Future<void> deleteAll() async {
-    db.delete(resultsTable);
-  }
-
-  static Future<List<Map<String, dynamic>>> getPrimarys() async {
-    return await db.rawQuery('SELECT $columnId FROM $resultsTable');
   }
 }

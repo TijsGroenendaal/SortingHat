@@ -1,10 +1,9 @@
-import 'package:Sorteerhoed/utils/User.dart';
+import 'package:SortingHat/utils/User.dart';
+import 'package:SortingHat/widgets/ContinueTestDialog_Widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'SavedResults_Screen.dart';
-import 'TestQuestion_Screen.dart';
-import 'TestStart_Screen.dart';
+import 'package:SortingHat/screens/SavedResults_Screen.dart';
+import 'package:SortingHat/screens/TestStart_Screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,16 +12,50 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sorting Hat"),
+      ),
+      floatingActionButton: Image.asset('images/hsl_logo.png', width: 100,),
+      body: Scaffold(
+        body: Center(
+          child: OrientationBuilder(builder: (context, orientation) {
+            if (orientation == Orientation.landscape) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  createIntroText(),
+                  SizedBox(
+                    height: 0,
+                    width: 50,
+                  ),
+                  createHomeButton()
+                ],
+              );
+            } else {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  createIntroText(),
+                  SizedBox(
+                    height: 50,
+                    width: 0,
+                  ),
+                  createHomeButton()
+                ],
+              );
+            }
+          },)
+        ),
+      ),
+    );
+  }
+
+  Widget createHomeButton() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.blue),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-            ),
-          ),
           child: Container(
             width: 200,
             height: 70,
@@ -37,13 +70,10 @@ class _HomeState extends State<HomeScreen> {
           ),
           onPressed: () => _startTestHandler(),
         ),
+        SizedBox(
+          height: 50,
+        ),
         ElevatedButton(
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            ),
-            backgroundColor: MaterialStateProperty.all(Colors.blue),
-          ),
           child: Container(
             width: 200,
             height: 70,
@@ -62,84 +92,43 @@ class _HomeState extends State<HomeScreen> {
     );
   }
 
-  void _showDialog() {
+  Widget createIntroText() {
+    return Container(
+      width: 300,
+      child: Text(
+        "Welcome!\n\n"
+            "With this test you can find out which specialisation is the best fit for you.\n\n These specialisations are teached at De Hogeschool Leiden",
+        overflow: TextOverflow.ellipsis,
+        maxLines: 100,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 20
+        ),
+      ),
+    );
+  }
+
+  void _showDialogContinueTest() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-            title: Text(
-              "Do you want to continue where you left?",
-              textAlign: TextAlign.center,
-            ),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue[400]),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),)
-                  ),
-                  onPressed: () => _resetOldTest(),
-                  child: Text(
-                    "No",
-                    style: TextStyle(fontSize: 20),
-                  )),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),),
-                    backgroundColor: MaterialStateProperty.all(Colors.blue[400])
-                  ),
-                  onPressed: () => _continueOldTest(),
-                  child: Text(
-                    "Yes",
-                    style: TextStyle(fontSize: 20),
-                  )
-                ),
-              ],
-            )
-        );
+        return ContinueTestDialogWidget(context: context,);
       },
     );
   }
 
-  void _resetUser() {
-    User.specialisation = "Unknown";
-    User.currentQuestion = 0;
-    User.answersPointList.clear();
-    User.specialisationPoints = [0, 0, 0, 0];
-  }
+
 
   void _startTestHandler() {
-    if (User.currentQuestion != 0) {
-      _showDialog();
+    // showDialog(context: context, builder: (context) => ShareResultWidget());
+    if (LocalUser.currentQuestion != 0) {
+      _showDialogContinueTest();
     } else {
-      _resetUser();
+      LocalUser.resetUser();
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return TestStartScreen();
       }));
     }
-  }
-
-  void _continueOldTest() {
-    Navigator.pop(context);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) {
-          return TestQuestionScreen();
-        }));
-  }
-
-  void _resetOldTest() {
-    _resetUser();
-    Navigator.pop(context);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) {
-          return TestQuestionScreen();
-        }));
   }
 
   void _gotoSavedResults() {

@@ -1,10 +1,9 @@
-import 'package:Sorteerhoed/utils/QuestionData.dart';
-import 'package:Sorteerhoed/utils/User.dart';
-import 'package:Sorteerhoed/utils/DatabaseHandler.dart';
+import 'package:SortingHat/utils/QuestionData.dart';
+import 'package:SortingHat/utils/User.dart';
+import 'package:SortingHat/utils/DatabaseHandler.dart';
+import 'package:SortingHat/widgets/ShareResult_Widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'TestResult_Screen.dart';
 
 class TestQuestionScreen extends StatefulWidget {
   @override
@@ -19,12 +18,16 @@ class _TestQuestionState extends State<TestQuestionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
-          "Question " + ((User.currentQuestion + 1).toString()),
+          "Question " + ((LocalUser.currentQuestion + 1).toString()),
         ),
         actions: [
           ElevatedButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))
+              ))
+            ),
               onPressed: () => _moveBackHandler(),
               child: Text(
                 "Back",
@@ -41,7 +44,7 @@ class _TestQuestionState extends State<TestQuestionScreen> {
                 height: 200,
                 child: Center(
                   child: Text(
-                    variable.questionList[User.currentQuestion],
+                    variable.questionList[LocalUser.currentQuestion],
                     style: TextStyle(
                       fontSize: 25,
                     ),
@@ -49,27 +52,11 @@ class _TestQuestionState extends State<TestQuestionScreen> {
                   ),
                 )),
             Column(
-              children: List.generate(variable.possibleAnswerList.length + variable.possibleAnswerList.length, (index) {
-                bool chosen;
+              children: List.generate(variable.possibleAnswerList.length * 2, (index) {
                 int i = index ~/ 2;
-                if (User.currentQuestion < User.answersPointList.length) {
-                  if (i ==
-                      (User.answersPointList[User.currentQuestion] - 4) * -1) {
-                    chosen = true;
-                  } else {
-                    chosen = false;
-                  }
-                } else {
-                  chosen = false;
-                }
                 if (index.isOdd) {
-                  return Divider(
-                    height: 20,
-                    thickness: 1,
-                    color: Colors.white,
-                  );
+                  return Divider();
                 }
-
                 return ElevatedButton(
                   onPressed: () => _nextQuestionHandler(i),
                   child: Container(
@@ -82,12 +69,6 @@ class _TestQuestionState extends State<TestQuestionScreen> {
                       ),
                     ),
                   ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(chosen ? Colors.blueAccent : Colors.blue[400],),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                  )
                 );
               }),
             ),
@@ -100,55 +81,50 @@ class _TestQuestionState extends State<TestQuestionScreen> {
   void _calculatePoints(int value) {
     value = (value - 4) * -1;
     try {
-      User.answersPointList[User.currentQuestion] = value;
+      LocalUser.answersPointList[LocalUser.currentQuestion] = value;
     } on RangeError {
-      User.answersPointList.add(value);
+      LocalUser.answersPointList.add(value);
     }
   }
 
   void _calculateSpecialisation() {
     List<int> specialisationMaxPoints = [372, 380, 372, 380];
+    List<String> nameList = ["FICT", "IAT", "SE", "BDAM"];
 
     for (int i = 0; i < 20; i++) {
       for (int o = 0; o < 4; o++) {
-        int temp = User.answersPointList[i] * variable.questionPointsList[i][o];
-        User.specialisationPoints[o] = temp + User.specialisationPoints[o];
+        int temp = LocalUser.answersPointList[i] * variable.questionPointsList[i][o];
+        LocalUser.specialisationPoints[nameList[o]] = temp + LocalUser.specialisationPoints[nameList[o]];
       }
     }
 
     for (int i = 0; i < 4; i++) {
-      double temp = (User.specialisationPoints[i] / specialisationMaxPoints[i]) * 100;
-      User.specialisationPoints[i] = temp ~/ 1;
+      double temp = (LocalUser.specialisationPoints[nameList[i]] / specialisationMaxPoints[i]) * 100;
+      LocalUser.specialisationPoints[nameList[i]] = temp ~/ 1;
     }
   }
 
   void _nextQuestionHandler(int i) {
     _calculatePoints(i);
-    if (User.currentQuestion != 19) {
+    if (LocalUser.currentQuestion != 19) {
       setState(() {
-        User.currentQuestion += 1;
+        LocalUser.currentQuestion += 1;
       });
       _scrollBackHandler();
 
-    } else if (User.currentQuestion == 19) {
-      setState(() {
-        User.currentQuestion = 0;
-      });
+    } else if (LocalUser.currentQuestion == 19) {
       _calculateSpecialisation();
-      User.setSpecialisation();
+      LocalUser.setSpecialisation();
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) {
-            return TestResultScreen();
-          }));
+      showDialog(context: context, builder: (context) => ShareResultWidget());
       DatabaseHandler.insert();
     }
   }
 
   void _moveBackHandler() {
-    if (User.currentQuestion != 0) {
+    if (LocalUser.currentQuestion != 0) {
       setState(() {
-        User.currentQuestion -= 1;
+        LocalUser.currentQuestion -= 1;
       });
       _scrollBackHandler();
     }
@@ -157,7 +133,7 @@ class _TestQuestionState extends State<TestQuestionScreen> {
   void _scrollBackHandler() {
     scrollController.animateTo(
       scrollController.position.minScrollExtent,
-      duration: Duration(seconds: 1),
+      duration: Duration(milliseconds: 100),
       curve: Curves.fastOutSlowIn,
     );
   }

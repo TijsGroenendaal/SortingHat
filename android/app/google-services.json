@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "370092617036",
+    "project_id": "sortinghat-a0694",
+    "storage_bucket": "sortinghat-a0694.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370092617036:android:187f50c6671d1646f3b3e9",
+        "android_client_info": {
+          "package_name": "TijsGroenendaal.SortingHat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370092617036-rn9sfh6hmhuffv0rf916gcpleqtks49v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0D4KWkx0mbPuPhV2kJY2KGdhrDR14U-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370092617036-rn9sfh6hmhuffv0rf916gcpleqtks49v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
