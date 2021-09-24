@@ -1,7 +1,7 @@
+import 'package:SortingHat/screens/TestQuestion_Screen.dart';
 import 'package:SortingHat/utils/User.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SortingHat/screens/TestQuestion_Screen.dart';
 
 class ContinueTestDialogWidget extends StatelessWidget{
   final BuildContext context;

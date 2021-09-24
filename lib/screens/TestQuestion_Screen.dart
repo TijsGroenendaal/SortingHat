@@ -1,7 +1,7 @@
+import 'package:SortingHat/dialogs/ShareResult_Dialog.dart';
+import 'package:SortingHat/utils/DatabaseHandler.dart';
 import 'package:SortingHat/utils/QuestionData.dart';
 import 'package:SortingHat/utils/User.dart';
-import 'package:SortingHat/utils/DatabaseHandler.dart';
-import 'package:SortingHat/widgets/ShareResult_Widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

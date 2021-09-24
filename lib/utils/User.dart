@@ -1,7 +1,6 @@
 import 'dart:math';
 
 class LocalUser {
-  static String name;
   static int currentQuestion = 0;
   static List<int> answersPointList = [];
   static Map<String, int> specialisationPoints = {
@@ -44,7 +43,6 @@ class LocalUser {
       'BDAM': 0,
       'IAT': 0,
     };
-    LocalUser.name = null;
   }
 }
 

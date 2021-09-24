@@ -16,7 +16,7 @@ class _TestResultState extends State<TestResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Results of: ${widget.user.name}"),
+        title: Text("Result of: ${widget.user.name.split('@')[0]}"),
       ),
       body: Scaffold(
         body: SingleChildScrollView(

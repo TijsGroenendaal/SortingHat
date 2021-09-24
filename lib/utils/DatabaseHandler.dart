@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path/path.dart' as paths;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -51,8 +52,8 @@ class DatabaseHandler {
     await db.insert(
       resultsTable,
       {
-        columnId: (LocalUser.name + LocalUser.specialisationPoints.toString()).hashCode,
-        columnName: LocalUser.name,
+        columnId: (FirebaseAuth.instance.currentUser.email + DateTime.now().toString()).hashCode,
+        columnName: FirebaseAuth.instance.currentUser.email,
         columnResult: LocalUser.specialisation,
         columnFICT: LocalUser.specialisationPoints['FICT'],
         columnIAT: LocalUser.specialisationPoints['IAT'],

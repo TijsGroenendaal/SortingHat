@@ -1,9 +1,12 @@
 import 'package:SortingHat/screens/Home_Screen.dart';
+import 'package:SortingHat/screens/Login_Screen.dart';
+import 'package:SortingHat/screens/Registration_Screen.dart';
+import 'package:SortingHat/screens/Welcome_Screen.dart';
 import 'package:SortingHat/utils/AppColors.dart';
+import 'package:SortingHat/utils/DatabaseHandler.dart';
 import 'package:SortingHat/utils/FirestoreHandler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SortingHat/utils/DatabaseHandler.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +44,13 @@ void main() {
         ),
         debugShowCheckedModeBanner: false,
         title: "Sorting Hat",
-        home: HomeScreen(),
+        initialRoute: WelcomeScreen.id,
+        routes: {
+          RegistrationScreen.id : (context) => RegistrationScreen(),
+          WelcomeScreen.id : (context) => WelcomeScreen(),
+          HomeScreen.id : (context) => HomeScreen(),
+          LoginScreen.id : (context) => LoginScreen(),
+        },
       )
   );
 }

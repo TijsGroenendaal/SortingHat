@@ -1,9 +1,10 @@
+import 'package:SortingHat/screens/TestResult_Screen.dart';
 import 'package:SortingHat/utils/FirestoreHandler.dart';
 import 'package:SortingHat/utils/User.dart';
 import 'package:SortingHat/widgets/DialogButton_Widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SortingHat/screens/TestResult_Screen.dart';
 
 class ShareResultWidget extends StatelessWidget{
   @override
@@ -52,10 +53,13 @@ class ShareResultWidget extends StatelessWidget{
   }
 
   void pressedYesHandler(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
     moveToResultScreen(context);
     FireStoreHandler.firebaseApp.collection("results").add(
         {
-          "name" : LocalUser.name,
+          "uid" : currentUser.uid,
+          "name" : currentUser.email,
           "points" : LocalUser.specialisationPoints,
           "result" : LocalUser.specialisation
         });
@@ -72,7 +76,7 @@ class ShareResultWidget extends StatelessWidget{
           return TestResultScreen(user: ResultUser(
             specialisationPoints: LocalUser.specialisationPoints,
             specialisation: LocalUser.specialisation,
-            name: LocalUser.name,
+            name: FirebaseAuth.instance.currentUser.email,
           ));
         })
     );

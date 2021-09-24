@@ -1,11 +1,15 @@
+import 'package:SortingHat/dialogs/ContinueTest_Dialog.dart';
+import 'package:SortingHat/screens/SavedResults_Screen.dart';
+import 'package:SortingHat/screens/TestQuestion_Screen.dart';
+import 'package:SortingHat/screens/Welcome_Screen.dart';
 import 'package:SortingHat/utils/User.dart';
-import 'package:SortingHat/widgets/ContinueTestDialog_Widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SortingHat/screens/SavedResults_Screen.dart';
-import 'package:SortingHat/screens/TestStart_Screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String id = 'HomeScreen';
+
   @override
   State<HomeScreen> createState() => _HomeState();
 }
@@ -14,6 +18,13 @@ class _HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+            Navigator.pop(context);
+          },
+        ),
         title: Text("Sorting Hat"),
       ),
       floatingActionButton: Image.asset('images/hsl_logo.png', width: 100,),
@@ -97,7 +108,8 @@ class _HomeState extends State<HomeScreen> {
       width: 300,
       child: Text(
         "Welcome!\n\n"
-            "With this test you can find out which specialisation is the best fit for you.\n\n These specialisations are teached at De Hogeschool Leiden",
+        "With this test you can find out which specialisation is the best fit for you.\n\n"
+        "These specialisations are teached at De Hogeschool Leiden",
         overflow: TextOverflow.ellipsis,
         maxLines: 100,
         textAlign: TextAlign.center,
@@ -117,8 +129,6 @@ class _HomeState extends State<HomeScreen> {
     );
   }
 
-
-
   void _startTestHandler() {
     // showDialog(context: context, builder: (context) => ShareResultWidget());
     if (LocalUser.currentQuestion != 0) {
@@ -126,7 +136,7 @@ class _HomeState extends State<HomeScreen> {
     } else {
       LocalUser.resetUser();
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return TestStartScreen();
+        return TestQuestionScreen();
       }));
     }
   }
